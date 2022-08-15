@@ -1,0 +1,136 @@
+.signin {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #efe2ba;
+  flex-direction: column;
+  &__home-link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    color: #4285f4;
+    text-decoration: none;
+    &:hover {
+      transition: 0.3s;
+      opacity: 0.8;
+    }
+  }
+
+  &__home-img {
+    width: 40px;
+    height: 40px;
+    fill: #000;
+    margin: 0 10px 20px 0;
+  }
+  &__form {
+    min-width: 400px;
+    @media (max-width: 480px) {
+      min-width: 290px;
+    }
+    &-error {
+      color: #ee3465;
+      font-size: 15px;
+      font-weight: 700;
+      margin: 10px 0 0;
+    }
+  }
+  &__fieldset {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    color: #2b2727;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    margin-bottom: 10px;
+    position: relative;
+    &:last-of-type {
+      margin-bottom: 20px;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    height: 46px;
+    font-family: "Arial", sans-serif;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #2f2f2f;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    line-height: 22px;
+    margin: 10px 0 15px;
+    color: #fff;
+    &:focus {
+      border: 1px solid white;
+      outline: none;
+    }
+  }
+
+  &__input-error {
+    display: inline-block;
+    font-weight: 400;
+    font-size: 12px;
+    width: 100%;
+    text-align: left;
+    text-overflow: ellipsis;
+    color: #ee3465;
+    position: absolute;
+    top: 72px;
+  }
+
+  &__submit {
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    background-color: #febd17;
+    border: none;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: #000;
+    font-weight: 400;
+    &:hover {
+      transition: 0.3s;
+      transform: scale(1.2);
+    }
+  }
+
+  &__tip {
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 400px;
+    font-size: 15px;
+    line-height: 22px;
+    color: #000;
+    margin-bottom: 0;
+    &-link {
+      color: #4285f4;
+      text-decoration: none;
+      &:hover {
+        transition: 0.3s;
+        opacity: 0.8;
+      }
+    }
+    @media (max-width: 480px) {
+      min-width: unset;
+      max-width: 290px;
+    }
+  }
+}
