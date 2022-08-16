@@ -5,6 +5,6 @@ const popupSchema = Yup.object().shape({
   name: Yup.string().required("Это поле обязательно").default(""),
 });
 
-const formSignInOptions = { resolver: yupResolver(popupSchema) };
+const popupOptions = { resolver: yupResolver(popupSchema) };
 
-export default formSignInOptions;
+export default popupOptions;

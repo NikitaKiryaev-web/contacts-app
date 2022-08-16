@@ -26,8 +26,14 @@ export const contactSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    removeAllContacts(state) {
+      state.contacts = [];
+    },
     fetchContacts(state) {
       state.isLoading = true;
+    },
+    fetchContactsEnd(state) {
+      state.isLoading = false;
     },
     addContact(state, action: PayloadAction<IContact>) {
       state.contacts.push(action.payload);
@@ -38,7 +44,11 @@ export const contactSlice = createSlice({
       });
     },
     changeContactName(state, action: PayloadAction<IContact>) {
-      state.contacts[action.payload.id].name = action.payload.name;
+      state.contacts = state.contacts.map((contact) => {
+        return contact.id === action.payload.id
+          ? { ...contact, name: action.payload.name }
+          : contact;
+      });
     },
   },
 });

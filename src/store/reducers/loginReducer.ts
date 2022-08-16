@@ -1,4 +1,4 @@
-import { ILogin } from "./../../models/ILogin";
+import { ILogin } from "../../models/ILoginForm";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LoginState extends ILogin {

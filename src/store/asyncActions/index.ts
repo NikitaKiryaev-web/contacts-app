@@ -1,13 +1,13 @@
 import { IContact } from "./../../models/IContact";
 import { contactSlice } from "./../reducers/contactReducer";
-import { ILogin } from "../../models/ILogin";
+import { ILogin } from "../../models/ILoginForm";
 import { loginSlice } from "./../reducers/loginReducer";
 import { AppDispatch } from "./../index";
 export const signin =
   ({ login, password }: ILogin) =>
-  async (dispacth: AppDispatch) => {
+  async (dispatch: AppDispatch) => {
     try {
-      dispacth(loginSlice.actions.toggleLoading(true));
+      dispatch(loginSlice.actions.toggleLoading(true));
       const res = await fetch(
         `http://localhost:3005/users?login=${login}&password=${password}`
       );
@@ -15,35 +15,77 @@ export const signin =
       if (!json.length) {
         throw new Error("Невалидные данные");
       }
-      dispacth(loginSlice.actions.toggleLoading(false));
-      dispacth(loginSlice.actions.toggleIsLoggedIn(true));
-      dispacth(loginSlice.actions.toggleSuccess(true));
+      dispatch(loginSlice.actions.toggleLoading(false));
+      dispatch(loginSlice.actions.toggleIsLoggedIn(true));
+      dispatch(loginSlice.actions.toggleSuccess(true));
       localStorage.setItem("loggedIn", "true");
       localStorage.setItem("username", login);
       localStorage.setItem("id", json[0].id);
     } catch (e) {
       console.log(e);
-      dispacth(loginSlice.actions.toggleLoading(false));
-      dispacth(loginSlice.actions.toggleSuccess(false));
+      dispatch(loginSlice.actions.toggleLoading(false));
+      dispatch(loginSlice.actions.toggleSuccess(false));
     }
   };
 
-export const getContacts = (id: number) => async (dispacth: AppDispatch) => {
+export const getContacts = () => async (dispatch: AppDispatch) => {
   try {
-    dispacth(contactSlice.actions.fetchContacts());
-    const res = await fetch(`http://localhost:3005/contacts?userId=${id}`);
+    dispatch(contactSlice.actions.fetchContacts());
+    const res = await fetch(`http://localhost:3005/contacts`);
     const json = await res.json();
-    dispacth(contactSlice.actions.fetchContactsSuccess(json));
+    dispatch(contactSlice.actions.fetchContactsSuccess(json));
   } catch {
-    dispacth(contactSlice.actions.fetchContactsFail("Что-то пошло не так :("));
+    dispatch(contactSlice.actions.fetchContactsFail("Что-то пошло не так :("));
   }
 };
 
-export const addContact =
-  (contact: IContact) => async (dispacth: AppDispatch) => {
+export const searchContacts =
+  (search: string) => async (dispatch: AppDispatch) => {
     try {
-      dispacth(contactSlice.actions.fetchContacts());
-      const res = await fetch(`http://localhost:3005/contacts`, {
+      dispatch(contactSlice.actions.fetchContacts());
+      const res = await fetch(
+        `http://localhost:3005/contacts?name_like=${search}`
+      );
+      const json = await res.json();
+      if (!json.length) {
+        dispatch(
+          contactSlice.actions.fetchContactsFail("Ничего не найдено :(")
+        );
+        dispatch(contactSlice.actions.removeAllContacts());
+        return;
+      }
+      dispatch(contactSlice.actions.fetchContactsSuccess(json));
+    } catch {
+      contactSlice.actions.fetchContactsFail("Что-то пошло не так :(");
+    }
+  };
+
+export const changeContactName =
+  ({ id, name }: IContact) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch(contactSlice.actions.fetchContacts());
+      await fetch(`http://localhost:3005/contacts/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+        }),
+      });
+      dispatch(contactSlice.actions.changeContactName({ id, name }));
+      dispatch(contactSlice.actions.fetchContactsEnd());
+    } catch (e) {
+      contactSlice.actions.fetchContactsFail("Что-то пошло не так :(");
+    }
+  };
+
+export const addContact =
+  (contact: IContact) => async (dispatch: AppDispatch) => {
+    try {
+      dispatch(contactSlice.actions.fetchContacts());
+      await fetch(`http://localhost:3005/contacts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,11 +94,27 @@ export const addContact =
           ...contact,
         }),
       });
-      const json = await res.json();
-      dispacth(contactSlice.actions.fetchContactsSuccess(json));
+      dispatch(contactSlice.actions.addContact(contact));
+      dispatch(contactSlice.actions.fetchContactsEnd());
     } catch {
-      dispacth(
+      dispatch(
         contactSlice.actions.fetchContactsFail("Что-то пошло не так :(")
       );
     }
   };
+
+export const deleteContact = (id: number) => async (dispatch: AppDispatch) => {
+  try {   
+    dispatch(contactSlice.actions.fetchContacts());
+    await fetch(`http://localhost:3005/contacts/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    dispatch(contactSlice.actions.removeContact(id));
+    dispatch(contactSlice.actions.fetchContactsEnd());
+  } catch {
+    dispatch(contactSlice.actions.fetchContactsFail("Что-то пошло не так :("));
+  }
+};

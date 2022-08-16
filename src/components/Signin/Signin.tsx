@@ -2,7 +2,7 @@ import "./Signin.scss";
 import { useForm } from "react-hook-form";
 import formSignInOptions from "../../utils/validationSchemas/signinSchema";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { ILogin } from "../../models/ILogin";
+import { ILogin } from "../../models/ILoginForm";
 import { signin } from "../../store/asyncActions";
 import { loginSlice } from "../../store/reducers/loginReducer";
 import { ChangeEvent } from "react";

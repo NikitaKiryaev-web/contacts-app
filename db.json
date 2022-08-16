@@ -1,11 +1,6 @@
 {
   "users": [
     {
-      "id": 1,
-      "login": "Alex",
-      "password": "12345"
-    },
-    {
       "id": 2,
       "login": "Nik",
       "password": "123456"
@@ -13,14 +8,12 @@
   ],
   "contacts": [
     {
-      "id": 10,
-      "userId": 1,
-      "name": "Nik"
+      "name": "Nik12345678",
+      "id": 3.3657201672740333
     },
     {
-      "id": 11,
-      "userId": 2,
-      "name": "John"
+      "id": 8.235191496153075,
+      "name": "nik"
     }
   ]
 }

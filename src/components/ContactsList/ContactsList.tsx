@@ -11,7 +11,7 @@ const ContactsList: FC = () => {
     (state) => state.contactReducer
   );
   useEffect(() => {
-    dispatch(getContacts(Number(localStorage.getItem("id"))));
+    dispatch(getContacts());
   }, []);
   return (
     <div className="contacts">
@@ -19,7 +19,13 @@ const ContactsList: FC = () => {
       <h2 className="contacts__subtitle">Ваши контакты:</h2>
       <ul className="contacts__list">
         {contacts.map((contact) => {
-          return <ContactsItem key={contact.id} name={contact.name} />;
+          return (
+            <ContactsItem
+              key={contact.id}
+              id={contact.id}
+              name={contact.name}
+            />
+          );
         })}
       </ul>
       {isLoading && "Идет загрузка"}

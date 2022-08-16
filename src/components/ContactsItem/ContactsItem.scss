@@ -2,4 +2,38 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 30px 0 0;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+  &__name {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    line-height: 22px;
+    color: #000;
+    margin: 0 20px 0 0;
+    @media (max-width: 600px) {
+      margin: 0 0 15px;
+    }
+  }
+  &__button-change,
+  &__button-remove {
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background-color: brown;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: #fff;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+      transition: 0.3s;
+    }
+  }
+  &__button-change {
+    margin-right: 10px;
+  }
 }
